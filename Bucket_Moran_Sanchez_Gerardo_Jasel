@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Cubeta {
+	
+	public static void OrdenSelec(ArrayList<Integer> Datos) {
+		 int min = 0;
+		int temp = 0;
+		
+		
+		for (int pivote = 0; pivote < Datos.size(); pivote++) {
+			min=pivote;
+			for (int aux = pivote + 1; aux < Datos.size(); aux++) {
+				if(Datos.get(aux) < Datos.get(min)) {
+					min = aux;
+				}
+			}
+			temp = Datos.get(pivote);
+			Datos.set(pivote, Datos.get(min));
+			Datos.set(min, temp);
+		}
+	}
+	
+	
+	public static void Bucket(int[] Datos, int Slots) {
+		ArrayList<Integer> Cubetas []= new ArrayList[Slots];
+		
+		for (int i = 0; i < Slots ; i++) {
+			Cubetas[i] = new ArrayList();
+			
+		}
+		
+		for (int i = 0; i < Datos.length; i++) {
+			int DondeVa = Datos[i] / Slots;
+			Cubetas[DondeVa].add(Datos[i]);
+			
+		}
+		
+		for (int recorrido = 0; recorrido < Slots; recorrido++) {
+			OrdenSelec(Cubetas[recorrido]);
+			
+		}
+		int Contador = 0;
+		for (int Cubetita = 0; Cubetita < Slots; Cubetita++) {
+			for(int V = 0; V < Cubetas[Cubetita].size() ; V++) {
+				Datos[Contador] = Cubetas[Cubetita].get(V);
+				Contador++;
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		int[] datos = {70,12,11,78,40,33,4,31,57,10,41,22,89,88,97,13};
+		Bucket(datos,10);
+			System.out.println(Arrays.toString(datos));
+		}
+	}
+	
